@@ -1,76 +1,56 @@
 import asyncio
 import websockets
+import os # YENİ: İşletim sistemi ayarlarını okumak için
 
 oyuncular = []
+hazir_olanlar = []
 secimler = {}
-hazir_olanlar = [] # Tekrar oynamak isteyenleri burada tutacağız
 
 async def sunucu(websocket):
     print("YENİ OYUNCU BAĞLANDI!")
     oyuncular.append(websocket)
-    
     try:
         oyuncu_no = len(oyuncular)
         await websocket.send(f"SEN_OYUNCU_{oyuncu_no}")
         
         async for mesaj in websocket:
-            if isinstance(mesaj, bytes):
-                mesaj = mesaj.decode('utf-8')
+            if isinstance(mesaj, bytes): mesaj = mesaj.decode('utf-8')
 
-            # --- 1. OYUNCU "TEKRAR OYNA" DEDİ ---
             if mesaj == "BEN_HAZIRIM":
-                if websocket not in hazir_olanlar:
-                    hazir_olanlar.append(websocket)
-                
-                # Eğer odadaki herkes (2 kişi) hazırsa:
+                if websocket not in hazir_olanlar: hazir_olanlar.append(websocket)
                 if len(hazir_olanlar) == 2:
-                    print("Herkes hazır! Yeni oyun başlıyor...")
-                    msg = "HERKES_HAZIR_BASLA"
-                    for o in oyuncular:
-                        await o.send(msg)
-                    # Listeyi temizle ki sonraki tur yine kullanabilelim
-                    hazir_olanlar.clear()
-                    secimler.clear() # Önceki seçimleri de sil
+                    print("Herkes hazır!")
+                    for o in oyuncular: await o.send("HERKES_HAZIR_BASLA")
+                    hazir_olanlar.clear(); secimler.clear()
 
-            # --- 2. SOHBET MESAJI ---
             elif mesaj.startswith("CHAT:"):
                 gercek_mesaj = mesaj.split(":", 1)[1]
-                gonderen_kim = f"Oyuncu {oyuncu_no}"
-                formatli_mesaj = f"MSG:{gonderen_kim}:{gercek_mesaj}"
-                for o in oyuncular:
-                    await o.send(formatli_mesaj)
+                gonderen = f"Oyuncu {oyuncu_no}"
+                for o in oyuncular: await o.send(f"MSG:{gonderen}:{gercek_mesaj}")
                     
-            # --- 3. OYUN HAMLESİ ---
             elif mesaj in ["DOST", "IHANET"]:
-                print(f"Oyuncu {oyuncu_no} hamlesi: {mesaj}")
                 secimler[websocket] = mesaj
-                
                 if len(secimler) == 2:
-                    o1 = oyuncular[0]
-                    o2 = oyuncular[1]
+                    o1, o2 = oyuncular[0], oyuncular[1]
                     sonuc = f"SONUC:{secimler[o1]}:{secimler[o2]}"
-                    for o in oyuncular:
-                        await o.send(sonuc)
+                    for o in oyuncular: await o.send(sonuc)
                     secimler.clear()
                 
     except Exception as e:
-        print(f"Hata veya Ayrılma: {e}")
+        print(f"Hata: {e}")
     finally:
-        # Oyuncu düşerse veya çıkarsa
-        if websocket in oyuncular:
-            oyuncular.remove(websocket)
-        if websocket in hazir_olanlar:
-            hazir_olanlar.remove(websocket)
-        if websocket in secimler:
-            del secimler[websocket]
-        
-        # Kalan oyuncuya haber ver (Oyun iptal)
-        for o in oyuncular:
-            await o.send("RAKIP_AYRILDI")
+        if websocket in oyuncular: oyuncular.remove(websocket)
+        if websocket in hazir_olanlar: hazir_olanlar.remove(websocket)
+        if websocket in secimler: del secimler[websocket]
+        for o in oyuncular: await o.send("RAKIP_AYRILDI")
 
 async def baslat():
-    async with websockets.serve(sunucu, "localhost", 8765):
-        print("SENKRON SUNUCU HAZIR!")
+    # --- BURASI DEĞİŞTİ ---
+    # Render'ın bize verdiği PORT'u alıyoruz. Yoksa 8765 kullan.
+    port = int(os.environ.get("PORT", 8765))
+    # "localhost" yerine "0.0.0.0" yazıyoruz ki dışarıya açılsın.
+    async with websockets.serve(sunucu, "0.0.0.0", port):
+        print(f"SUNUCU {port} PORTUNDA BAŞLADI!")
         await asyncio.Future()
 
 if __name__ == "__main__":
