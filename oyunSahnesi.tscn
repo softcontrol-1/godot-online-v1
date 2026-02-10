@@ -1,0 +1,212 @@
+[gd_scene load_steps=15 format=3 uid="uid://crmem3e0xmauo"]
+
+[ext_resource type="Texture2D" uid="uid://xforuwghdvr" path="res://Assets/Sprites/masa_arkaplan.png" id="1_7wfat"]
+[ext_resource type="Script" uid="uid://b1rc7j8ygsspk" path="res://oyun_sahnesi.gd" id="1_nj5gf"]
+[ext_resource type="Texture2D" uid="uid://c1m7nravp4wo1" path="res://Assets/Sprites/makine_gövde.png" id="2_w5ari"]
+[ext_resource type="Texture2D" uid="uid://diwi3li505agd" path="res://Assets/Sprites/buton_yesil_up.png" id="3_nux3i"]
+[ext_resource type="Texture2D" uid="uid://4xhikih1awey" path="res://Assets/Sprites/buton_yesil_down.png" id="4_sp2cs"]
+[ext_resource type="Texture2D" uid="uid://dv0xref0y6a44" path="res://Assets/Sprites/buton_kirmizi_up.png" id="5_lfq1v"]
+[ext_resource type="Texture2D" uid="uid://dgg42fduhsasc" path="res://Assets/Sprites/buton_kirmizi_down.png" id="6_84k88"]
+[ext_resource type="Texture2D" uid="uid://4v6bx8s6q311" path="res://Assets/Sprites/ampul_sonuk.png" id="7_84k88"]
+[ext_resource type="Texture2D" uid="uid://y718tl8ytfnq" path="res://Assets/Sprites/el_normal.png" id="8_nj5gf"]
+[ext_resource type="Script" uid="uid://cdfxm3q0fkvmt" path="res://el_imleci.gd" id="9_0hc6q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_nj5gf"]
+font_size = 32
+font_color = Color(0.97819144, 0.94717675, 0.97639245, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0hc6q"]
+font_size = 32
+font_color = Color(0.047841407, 0.047841407, 0.047841407, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hym61"]
+font_size = 42
+font_color = Color(0.07958033, 0.34274745, 0.2587752, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0p4mt"]
+font_size = 64
+
+[node name="oyunSahnesi" type="Node2D"]
+script = ExtResource("1_nj5gf")
+
+[node name="MasaArkaplan" type="Sprite2D" parent="."]
+position = Vector2(322, 181)
+texture = ExtResource("1_7wfat")
+metadata/_edit_lock_ = true
+
+[node name="MakineGövde" type="Sprite2D" parent="."]
+position = Vector2(525, 218)
+texture = ExtResource("2_w5ari")
+metadata/_edit_lock_ = true
+
+[node name="Btn_Dost" type="TextureButton" parent="."]
+offset_left = 437.0
+offset_top = 225.0
+offset_right = 501.0
+offset_bottom = 257.0
+texture_normal = ExtResource("3_nux3i")
+texture_pressed = ExtResource("4_sp2cs")
+
+[node name="Btn_Ihanet" type="TextureButton" parent="."]
+offset_left = 511.0
+offset_top = 225.0
+offset_right = 575.0
+offset_bottom = 257.0
+texture_normal = ExtResource("5_lfq1v")
+texture_pressed = ExtResource("6_84k88")
+
+[node name="Ampuller" type="Node2D" parent="."]
+
+[node name="Ampul_1" type="Sprite2D" parent="Ampuller"]
+position = Vector2(454, 184)
+texture = ExtResource("7_84k88")
+
+[node name="Ampul_2" type="Sprite2D" parent="Ampuller"]
+position = Vector2(466, 184)
+texture = ExtResource("7_84k88")
+
+[node name="Ampul_3" type="Sprite2D" parent="Ampuller"]
+position = Vector2(480, 184)
+texture = ExtResource("7_84k88")
+
+[node name="Ampul_4" type="Sprite2D" parent="Ampuller"]
+position = Vector2(494, 184)
+texture = ExtResource("7_84k88")
+
+[node name="Ampul_5" type="Sprite2D" parent="Ampuller"]
+position = Vector2(508, 184)
+texture = ExtResource("7_84k88")
+
+[node name="Ampul_6" type="Sprite2D" parent="Ampuller"]
+position = Vector2(559, 184)
+texture = ExtResource("7_84k88")
+
+[node name="Ampul_7" type="Sprite2D" parent="Ampuller"]
+position = Vector2(574, 184)
+texture = ExtResource("7_84k88")
+
+[node name="Ampul_8" type="Sprite2D" parent="Ampuller"]
+position = Vector2(589, 184)
+texture = ExtResource("7_84k88")
+
+[node name="Ampul_9" type="Sprite2D" parent="Ampuller"]
+position = Vector2(603, 184)
+texture = ExtResource("7_84k88")
+
+[node name="Ampul_10" type="Sprite2D" parent="Ampuller"]
+position = Vector2(616, 184)
+texture = ExtResource("7_84k88")
+
+[node name="El_Imleci" type="Sprite2D" parent="."]
+z_index = 100
+position = Vector2(329.73593, 222.5242)
+scale = Vector2(1.1562501, 1.1629586)
+texture = ExtResource("8_nj5gf")
+centered = false
+offset = Vector2(-10.15, -5.61)
+script = ExtResource("9_0hc6q")
+
+[node name="Lbl_Skor_Ben" type="Label" parent="."]
+offset_left = 454.0
+offset_top = 123.0
+offset_right = 509.0
+offset_bottom = 216.0
+text = "000
+"
+label_settings = SubResource("LabelSettings_nj5gf")
+
+[node name="Lbl_Skor_Rakip" type="Label" parent="."]
+offset_left = 563.0
+offset_top = 124.0
+offset_right = 618.0
+offset_bottom = 217.0
+text = "000
+"
+label_settings = SubResource("LabelSettings_0hc6q")
+
+[node name="GeriSayim" type="Timer" parent="."]
+
+[node name="Lbl_Sure" type="Label" parent="."]
+offset_left = 279.0
+offset_top = 22.0
+offset_right = 327.0
+offset_bottom = 141.0
+text = "60
+"
+label_settings = SubResource("LabelSettings_hym61")
+
+[node name="Lbl_Durum" type="Label" parent="."]
+offset_left = 234.0
+offset_top = 76.0
+offset_right = 378.0
+offset_bottom = 151.0
+text = "seçim bekleniyor...
+
+"
+horizontal_alignment = 1
+
+[node name="SohbetPaneli" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 21.0
+offset_top = 74.0
+offset_right = 61.0
+offset_bottom = 114.0
+
+[node name="Lbl_Mesajlar" type="RichTextLabel" parent="SohbetPaneli"]
+layout_mode = 0
+offset_left = -7.0
+offset_top = -55.0
+offset_right = 185.0
+offset_bottom = 247.0
+bbcode_enabled = true
+
+[node name="Input_Mesaj" type="LineEdit" parent="SohbetPaneli"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 205.0
+offset_right = 174.0
+offset_bottom = 236.0
+placeholder_text = "buraya yaz..."
+alignment = 1
+
+[node name="Panel_Bitis" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Panel_Bitis"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.78431374)
+
+[node name="Lbl_Sonuc" type="Label" parent="Panel_Bitis"]
+offset_left = 154.0
+offset_top = 60.0
+offset_right = 510.0
+offset_bottom = 148.0
+text = "OYUN BİTTİ"
+label_settings = SubResource("LabelSettings_0p4mt")
+
+[node name="Btn_Tekrar" type="Button" parent="Panel_Bitis"]
+offset_left = 77.0
+offset_top = 189.0
+offset_right = 258.0
+offset_bottom = 227.0
+text = "TEKRAR OYNA"
+
+[node name="Btn_Cikis" type="Button" parent="Panel_Bitis"]
+offset_left = 346.0
+offset_top = 184.0
+offset_right = 525.0
+offset_bottom = 232.0
+text = "ÇIK
+"
+
+[connection signal="pressed" from="Btn_Dost" to="." method="_on_btn_dost_pressed"]
+[connection signal="pressed" from="Btn_Ihanet" to="." method="_on_btn_ihanet_pressed"]
+[connection signal="timeout" from="GeriSayim" to="." method="_on_geri_sayim_timeout"]
+[connection signal="text_submitted" from="SohbetPaneli/Input_Mesaj" to="." method="_on_input_mesaj_text_submitted"]
+[connection signal="pressed" from="Panel_Bitis/Btn_Tekrar" to="." method="_on_btn_tekrar_pressed"]
+[connection signal="pressed" from="Panel_Bitis/Btn_Cikis" to="." method="_on_btn_cikis_pressed"]
